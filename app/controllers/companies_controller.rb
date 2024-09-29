@@ -1,9 +1,10 @@
 class CompaniesController < ApplicationController
   def index
-      companies = Company.all
-      render json: companies
+      if params[:name].present?   # フロントでnameで検索をかけた、名前による部分一致検索を行う
+        @companies = Company.where("LOWER(name) LIKE ?", "%#{params[:name].downcase}%")
+      else
+        @companies = Company.all
+      end
+      render json: @companies
   end
 end
-
-
-# ここで定義したおてAPI をReactで側で指定するっl
