@@ -3,7 +3,6 @@ class GoogleLoginApiController < ApplicationController
   include ActionController::Cookies
   require "googleauth/id_tokens/verifier"
 
-  # skip_before_action :verify_g_csrf_token, only: [ :callback ]
   before_action :verify_g_csrf_token
 
 
@@ -13,7 +12,7 @@ class GoogleLoginApiController < ApplicationController
     payload = Google::Auth::IDTokens.verify_oidc(credential)
     Rails.logger.info("Decoded payload: #{payload}")
     user = User.find_or_create_by(email: payload["email"])
-    # session[:user_id] = user.id
+    session[:user_id] = user.id
     redirect_to after_login_path, notice: "loginしました"
   end
 
