@@ -10,6 +10,14 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    # DatabaseCleanerを使用してテストの前後でデータベースをクリーンにする設定
+    setup do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
+
+    teardown do
+      DatabaseCleaner.clean
+  end
   end
 end
